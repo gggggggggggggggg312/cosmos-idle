@@ -45,26 +45,39 @@ button{background:var(--panel2);color:var(--text);border:1px solid var(--border)
 (() => {
 "use strict";
 const eras = [
- {name:"Planck Epoch",description:"The earliest known physical regime. A complete theory of quantum gravity is still unknown.",age:"t ≈ 0 seconds"},
- {name:"Cosmic Inflation",description:"A tiny region of space expands enormously in an extremely short time.",age:"t ≈ 10⁻³² seconds"},
- {name:"Particle Formation",description:"As the universe cools, familiar particles become part of the cosmic story.",age:"Fractions of a second"},
- {name:"Big Bang Nucleosynthesis",description:"The first light atomic nuclei, including hydrogen and helium nuclei, form.",age:"t ≈ 3–20 minutes"},
- {name:"Recombination",description:"Electrons combine with nuclei. Light travels freely, leaving the cosmic microwave background.",age:"t ≈ 380,000 years"},
- {name:"First Stars",description:"The first stars ignite and begin changing their surroundings.",age:"Roughly 100–200 million years"},
- {name:"Galaxy Formation",description:"Stars gather into galaxies, while galaxies grow and interact.",age:"First billion years and beyond"},
- {name:"Modern Universe",description:"Galaxies, stars, planets and large cosmic structures continue to evolve.",age:"Today: about 13.8 billion years"}
+ {name:"Planck Epoch",description:"Gravity and quantum physics are both essential. Our current theories cannot yet fully describe this regime.",age:"Before 10⁻⁴³ seconds"},
+ {name:"Grand Unification Epoch",description:"At fantastically high energies, some fundamental forces may have been unified.",age:"Around 10⁻⁴³ to 10⁻³⁶ seconds"},
+ {name:"Cosmic Inflation",description:"A tiny region of space expands enormously in an extremely short time.",age:"Often placed around 10⁻³⁶ to 10⁻³² seconds"},
+ {name:"Reheating",description:"The energy driving inflation is converted into a hot soup of particles.",age:"After inflation"},
+ {name:"Electroweak Epoch",description:"The electromagnetic and weak nuclear forces become distinct as the universe cools.",age:"Around 10⁻³⁶ to 10⁻¹² seconds"},
+ {name:"Quark Epoch",description:"Quarks and other particles fill the hot, dense universe.",age:"Around 10⁻¹² to 10⁻⁶ seconds"},
+ {name:"Hadron Epoch",description:"Quarks become bound into hadrons, including protons and neutrons.",age:"Around 10⁻⁶ to 1 second"},
+ {name:"Lepton Epoch",description:"Leptons are important players; electrons, positrons and neutrinos fill the universe.",age:"Around 1 to 10 seconds"},
+ {name:"Photon Epoch",description:"Radiation dominates the universe's energy while matter is still a minor component.",age:"After the lepton epoch to about  tens of thousands of years"},
+ {name:"Big Bang Nucleosynthesis",description:"The first light atomic nuclei, including hydrogen, helium and traces of lithium, form.",age:"About 3 to 20 minutes"},
+ {name:"Radiation-Dominated Era",description:"Radiation controls the expansion for much of the early universe.",age:"Until roughly  tens of thousands of years"},
+ {name:"Matter-Radiation Equality",description:"Matter becomes the dominant component over radiation, allowing structures to grow more effectively.",age:"About 47,000 years"},
+ {name:"Recombination",description:"Electrons combine with nuclei to form neutral atoms. The cosmic microwave background is released.",age:"About 380,000 years"},
+ {name:"Cosmic Dark Ages",description:"The universe has no stars yet. Gas slowly gathers in regions with more matter.",age:"From 380,000 years to the first stars"},
+ {name:"Reionization",description:"Light from the first stars and galaxies ionizes much of the surrounding hydrogen gas.",age:"Roughly  hundreds of millions of years"},
+ {name:"First Stars",description:"The first stars ignite, ending the cosmic dark ages and forging heavier elements.",age:"Roughly 100–200 million years"},
+ {name:"Galaxy Assembly",description:"Small galaxies form and merge into larger systems. Galaxies build up over cosmic time.",age:"Hundreds of millions of years onward"},
+ {name:"Stelliferous Era",description:"The universe shines with stars. Star formation continues, though it gradually becomes less active.",age:"Present era; billions to trillions of years"},
+ {name:"Degenerate Era",description:"After most stars fade, stellar remnants such as white dwarfs and neutron stars dominate.",age:"A distant future, after about 10¹⁴ years"},
+ {name:"Black Hole Era",description:"Black holes become major remaining structures as other matter sources fade.",age:"A still more distant future"},
+ {name:"Dark Era",description:"If current physics holds, the universe becomes extremely dilute, cold and dark.",age:"The far future"}
 ];
 const upgrades = [
  {name:"Quantum Fluctuations",description:"Small fluctuations provide a boost to Cosmic Point production.",base:10,kind:"income",amount:1},
  {name:"Time Accelerator",description:"Increase how quickly the current era progresses.",base:20,kind:"speed",amount:1},
  {name:"Cosmic Energy Harvester",description:"Collect more energy from your growing universe.",base:45,kind:"income",amount:5},
  {name:"Expansion Engine",description:"A stronger boost to era progression.",base:100,kind:"speed",amount:3},
- {name:"Stellar Foundries",description:"Unlocks a powerful source of Cosmic Points in the stellar era.",base:250,kind:"income",amount:20,unlock:5},
- {name:"Gravity Networks",description:"Accelerate the growth of cosmic structures.",base:500,kind:"speed",amount:8,unlock:6},
- {name:"Black Hole Accretion",description:"Harness matter falling into black holes for more points.",base:1500,kind:"income",amount:100,unlock:7}
+ {name:"Stellar Foundries",description:"Unlocks a powerful source of Cosmic Points in the stellar era.",base:250,kind:"income",amount:20,unlock:15},
+ {name:"Gravity Networks",description:"Accelerate the growth of cosmic structures.",base:500,kind:"speed",amount:8,unlock:16},
+ {name:"Black Hole Accretion",description:"Harness matter falling into black holes for more points.",base:1500,kind:"income",amount:100,unlock:19}
 ];
 const $ = id => document.getElementById(id);
-const fresh = () => ({points:25,income:1,speed:1,era:0,progress:0,levels:Array(upgrades.length).fill(0),history:["The first moments of a new universe." ]});
+const fresh = () => ({timelineVersion:2,points:25,income:1,speed:1,era:0,progress:0,levels:Array(upgrades.length).fill(0),history:["The first moments of a new universe." ]});
 let state = fresh();
 let last = Date.now();
 let lastSave = Date.now();
@@ -72,7 +85,7 @@ function cost(i){return Math.ceil(upgrades[i].base*Math.pow(1.65,state.levels[i]
 function number(n){return Math.floor(n).toLocaleString("en-US");}
 function addHistory(text){state.history.unshift(text);state.history=state.history.slice(0,8);}
 function save(){try{localStorage.setItem("cosmosIdleSaveV1",JSON.stringify(state));$("saveStatus").textContent="Game saved";}catch(e){$("saveStatus").textContent="Autosave unavailable";}}
-function load(){try{const raw=localStorage.getItem("cosmosIdleSaveV1");if(!raw)return;const s=JSON.parse(raw);if(!s||!Array.isArray(s.levels)||s.levels.length!==upgrades.length)return;state={...fresh(),...s};state.era=Math.max(0,Math.min(eras.length-1,Number(state.era)||0));state.points=Math.max(0,Number(state.points)||0);state.income=Math.max(1,Number(state.income)||1);state.speed=Math.max(1,Number(state.speed)||1);state.progress=Math.max(0,Math.min(100,Number(state.progress)||0));state.levels=upgrades.map((_,i)=>Math.max(0,Number(s.levels[i])||0));state.history=Array.isArray(s.history)?s.history.slice(0,8):fresh().history;}catch(e){}}
+function load(){try{const raw=localStorage.getItem("cosmosIdleSaveV1");if(!raw)return;const s=JSON.parse(raw);if(!s||!Array.isArray(s.levels)||s.levels.length!==upgrades.length)return;state={...fresh(),...s};if(!s.timelineVersion||s.timelineVersion<2){const oldEraMap=[0,2,5,9,12,15,16,20];state.era=oldEraMap[Math.max(0,Math.min(oldEraMap.length-1,Number(s.era)||0))];state.timelineVersion=2;}state.era=Math.max(0,Math.min(eras.length-1,Number(state.era)||0));state.points=Math.max(0,Number(state.points)||0);state.income=Math.max(1,Number(state.income)||1);state.speed=Math.max(1,Number(state.speed)||1);state.progress=Math.max(0,Math.min(100,Number(state.progress)||0));state.levels=upgrades.map((_,i)=>Math.max(0,Number(s.levels[i])||0));state.history=Array.isArray(s.history)?s.history.slice(0,8):fresh().history;}catch(e){}}
 function render(){
  $("points").textContent=number(state.points);$("income").textContent=state.income.toFixed(1);$("speed").textContent=state.speed.toFixed(1)+"×";
  const era=eras[state.era];$("eraName").textContent=era.name;$("eraDescription").textContent=era.description;$("eraAge").textContent=era.age;
