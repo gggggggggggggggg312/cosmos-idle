@@ -12,11 +12,11 @@ Open [COSMOS IDLE](https://gggggggggggggggg312.github.io/cosmos-idle/) after ena
 
 - Earn Cosmic Points (CP) over time.
 - Buy upgrades to increase CP production and simulation speed.
-- Progress through eight cosmic eras, from the Planck Epoch to the Modern Universe.
+- Progress through 21 cosmic eras, from the Planck Epoch through the far-future Dark Era.
 - Unlock stronger upgrades as the universe develops.
 - Automatic local save in your browser.
 
-The timeline is inspired by cosmology, but this is a simplified game rather than a scientific simulation.
+The timeline is inspired by cosmology, including speculative far-future eras. Some boundaries are approximate or uncertain; this is a simplified game rather than a scientific simulation.
 
 ## Run locally
 
