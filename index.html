@@ -1,130 +1,134 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cosmos Idle</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COSMOS IDLE</title>
 <style>
-:root{color-scheme:dark;--bg:#090b18;--panel:#14182b;--panel2:#1b2140;--text:#eef0ff;--muted:#a4accb;--accent:#a78bfa;--accent2:#67e8f9;--border:#303858;--good:#86efac}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#20204b 0,#090b18 55%);color:var(--text);font:16px/1.45 system-ui,Segoe UI,Arial,sans-serif;min-height:100vh}
-main{max-width:900px;margin:auto;padding:24px 16px 48px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-h1{font-size:clamp(2rem,6vw,3.2rem);margin:0;letter-spacing:.04em}.subtitle{color:var(--muted);margin:3px 0 20px}
-.pill{border:1px solid var(--border);border-radius:999px;padding:6px 11px;color:var(--accent2);font-size:.82rem}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.panel{background:linear-gradient(145deg,#171b33ee,#101426f2);border:1px solid var(--border);border-radius:16px;padding:17px;box-shadow:0 10px 35px #0003}
-.wide{grid-column:1/-1}.label{color:var(--muted);font-size:.76rem;text-transform:uppercase;letter-spacing:.12em}.big{font-size:2rem;font-weight:750;font-variant-numeric:tabular-nums}.muted{color:var(--muted)}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.bar{height:12px;background:#080b17;border:1px solid var(--border);border-radius:20px;overflow:hidden;margin:10px 0}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .2s}
-button{background:var(--panel2);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 13px;font:inherit;font-weight:650;cursor:pointer}button:hover:not(:disabled){border-color:var(--accent);filter:brightness(1.15)}button:disabled{opacity:.42;cursor:not-allowed}.primary{background:#5b42a5;border-color:#a78bfa}.upgrade{padding:13px 0;border-bottom:1px solid var(--border)}.upgrade:last-child{border:0}.upgrade p{margin:4px 0 9px;color:var(--muted);font-size:.9rem}.cost{font-variant-numeric:tabular-nums;color:var(--accent2)}.history{display:grid;gap:7px;color:var(--muted);font-size:.9rem}.history div{padding-left:12px;border-left:2px solid var(--border)}.footer{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
-@media(max-width:620px){.grid{grid-template-columns:1fr}.wide{grid-column:auto}.big{font-size:1.65rem}}
-</style>
-</head>
-<body>
-<main>
- <div class="top"><div><h1>✦ COSMOS IDLE</h1><p class="subtitle">Build a universe, one upgrade at a time.</p></div><span class="pill" id="saveStatus">Autosave enabled</span></div>
- <div class="grid">
-  <section class="panel"><div class="label">Cosmic Points</div><div class="big" id="points">25</div><div class="muted"><span id="income">1</span> CP per second</div></section>
-  <section class="panel"><div class="label">Simulation speed</div><div class="big" id="speed">1×</div><div class="muted">Era progress per second</div></section>
-  <section class="panel wide">
-   <div class="row"><span class="label">Current cosmic era</span><span class="pill" id="eraCount">ERA 1 / 8</span></div>
-   <h2 id="eraName" style="margin:8px 0 2px">Planck Epoch</h2><div class="muted" id="eraDescription">The universe is in its earliest known physical regime.</div>
-   <div class="row" style="margin-top:17px"><b>Era progress</b><span id="progressText" class="muted">0 / 100</span></div>
-   <div class="bar"><div class="fill" id="progressBar"></div></div>
-   <div class="row muted" style="font-size:.85rem"><span id="eraAge">t ≈ 0 seconds</span><span id="remaining">100 remaining</span></div>
-   <button class="primary" id="advance" style="width:100%;margin-top:15px" disabled>Next era (reach 100 progress)</button>
-  </section>
-  <section class="panel wide">
-   <div class="row"><h2 style="margin:0">⚙ Research & upgrades</h2><span class="muted" style="font-size:.8rem">Buy with CP</span></div>
-   <div id="upgrades"></div>
-  </section>
-  <section class="panel wide">
-   <h2 style="margin:0 0 12px">📜 Cosmic history</h2><div class="history" id="history"></div>
-  </section>
- </div>
- <div class="footer"><span class="muted" id="message">Your universe is running.</span><button id="reset">Reset universe</button></div>
- <p class="muted" style="font-size:.78rem;margin-top:18px">A simplified incremental game. Its timeline is inspired by cosmology, not a scientific simulation.</p>
+:root{color-scheme:dark;--bg:#070914;--panel:#11182a;--panel2:#18233b;--line:#2b3b59;--text:#edf4ff;--muted:#9aacc7;--cyan:#67e8f9;--violet:#b69cff;--green:#86efac;--gold:#fcd34d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#26345d 0,#0b1020 42%,#070914 80%);color:var(--text);font:15px/1.5 system-ui,Segoe UI,Arial,sans-serif}main{max-width:1180px;margin:auto;padding:22px 16px 55px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}h1{font-size:clamp(2rem,5vw,3.2rem);letter-spacing:.07em;margin:0}.sub{color:var(--muted);margin:2px 0 18px}.tag{border:1px solid var(--line);border-radius:999px;padding:6px 11px;color:var(--cyan);font-size:.8rem}.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(290px,1fr);gap:14px}.panel{background:linear-gradient(145deg,#151e33f2,#0d1425f5);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 12px 36px #0004}.wide{grid-column:1/-1}.visual{position:relative;overflow:hidden;min-height:300px;background:radial-gradient(ellipse at center,#202c52,#090e1d 68%);border-radius:13px;border:1px solid #344365}.visual canvas{width:100%;height:300px;display:block}.visualLabel{position:absolute;left:15px;top:12px;text-transform:uppercase;letter-spacing:.13em;font-size:.72rem;color:#b9c9e7;text-shadow:0 2px 8px #000}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.stat{background:#0b1221;border:1px solid #253451;border-radius:11px;padding:10px}.label{font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}.value{font-size:1.15rem;font-weight:750;font-variant-numeric:tabular-nums}.muted{color:var(--muted)}.eraTitle{font-size:1.5rem;margin:4px 0}.bar{height:10px;background:#070b15;border:1px solid var(--line);border-radius:99px;overflow:hidden;margin:8px 0}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--violet),var(--cyan));transition:width .2s}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.resources{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.resource{padding:9px;background:#0b1221;border:1px solid #253451;border-radius:10px}.resource b{display:block;font-size:1.08rem}.resource small{color:var(--muted)}button{background:#1a2945;color:var(--text);border:1px solid #3a5074;border-radius:9px;padding:9px 12px;font:inherit;font-weight:650;cursor:pointer}button:hover:not(:disabled){border-color:var(--cyan);filter:brightness(1.12)}button:disabled{opacity:.38;cursor:not-allowed}.primary{background:#51408c;border-color:#9e8bff}.danger{border-color:#74414b;background:#321b2a}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.item{background:#0b1221;border:1px solid #263653;border-radius:11px;padding:12px}.item p{color:var(--muted);font-size:.85rem;margin:5px 0 10px}.item button{width:100%}.item.unlocked{border-color:#3d6a76}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.tabs button{font-size:.85rem}.tabs button.active{background:#51408c;border-color:var(--violet)}.list{display:grid;gap:7px;max-height:380px;overflow:auto}.entry{padding:9px 11px;border:1px solid #253451;border-radius:9px;background:#0b1221}.entry small{display:block;color:var(--muted)}.entry.done{border-color:#397b62}.pill{font-size:.72rem;border:1px solid var(--line);border-radius:99px;padding:3px 8px;color:var(--cyan)}.notice{border:1px solid #756331;background:#292311;border-radius:11px;padding:12px;color:#fce7a2}.footer{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}.hidden{display:none!important}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.resources{grid-template-columns:repeat(2,1fr)}}@media(max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr}.visual,.visual canvas{height:235px;min-height:235px}}
+</style></head>
+<body><main>
+<div class="head"><div><h1>✦ COSMOS IDLE</h1><p class="sub">Start with a hot, dense universe. Build everything that comes after.</p></div><span class="tag" id="saveStatus">AUTOSAVE ON</span></div>
+<div class="layout">
+<section class="panel">
+<div class="visual"><canvas id="universe" width="900" height="420"></canvas><div class="visualLabel" id="visualLabel">EARLY UNIVERSE · PLASMA</div></div>
+<div class="stats">
+<div class="stat"><div class="label">Universe age</div><div class="value" id="age">0 sec</div></div>
+<div class="stat"><div class="label">Temperature</div><div class="value" id="temp">10³² K</div></div>
+<div class="stat"><div class="label">Scale factor</div><div class="value" id="scale">1.0×</div></div>
+<div class="stat"><div class="label">Expansion</div><div class="value" id="expansion">Rapid</div></div>
+<div class="stat"><div class="label">Matter</div><div class="value" id="matterMix">0%</div></div>
+<div class="stat"><div class="label">Cosmic legacy</div><div class="value" id="legacy">0</div></div>
+</div>
+</section>
+<section class="panel">
+<div class="label">Current cosmic era</div><div class="row"><h2 class="eraTitle" id="eraName">Planck Epoch</h2><span class="pill" id="eraCount">1 / 21</span></div>
+<p class="muted" id="eraDesc"></p><div class="row"><b>Era development</b><span class="muted" id="progressText">0 / 100</span></div><div class="bar"><div class="fill" id="progressBar"></div></div>
+<div class="row muted"><span id="eraAge">Before 10⁻⁴³ seconds</span><span id="remaining">100 left</span></div>
+<button class="primary" id="advance" style="width:100%;margin-top:12px" disabled>Continue cosmic evolution</button>
+<hr style="border:0;border-top:1px solid var(--line);margin:17px 0">
+<div class="label">Cosmic resources</div><div class="resources" id="resources"></div>
+</section>
+<section class="panel wide"><div class="row"><h2 style="margin:0">⚛ Cosmic processes</h2><span class="muted">Build the ingredients of a universe</span></div><p class="muted">Processes generate resources automatically. New processes unlock as the universe evolves.</p><div class="cards" id="processes"></div></section>
+<section class="panel"><div class="row"><h2 style="margin:0">🔬 Research</h2><span class="muted">Permanent improvements</span></div><div class="list" id="research"></div></section>
+<section class="panel"><div class="row"><h2 style="margin:0">🏆 Milestones</h2><span class="pill" id="achievementCount">0 unlocked</span></div><div class="list" id="achievements"></div></section>
+<section class="panel wide"><div class="row"><h2 style="margin:0">📚 Cosmic encyclopedia</h2><span class="muted">Explore the timeline</span></div><div class="list" id="encyclopedia" style="margin-top:10px"></div></section>
+<section class="panel wide"><div class="row"><h2 style="margin:0">🌌 Multiverse & Cosmic Legacy</h2><span class="pill" id="universeCount">Universe #1</span></div><p class="muted">Reach the far future, then begin a new universe with permanent legacy bonuses.</p><div class="row" style="flex-wrap:wrap"><div><div class="label">Legacy fragments</div><div class="value" id="legacyDetail">0</div></div><button class="primary" id="prestige" disabled>Create a new universe (requires Dark Era)</button></div><p class="muted" id="prestigeInfo">Your current universe will be reset in exchange for a permanent production bonus.</p></section>
+<section class="panel wide"><div class="row"><h2 style="margin:0">✨ Cosmic events</h2><span class="muted" id="eventTimer">Next event soon</span></div><div id="event" class="notice" style="margin-top:10px">The universe is calm. Unexpected events may occur as it evolves.</div><div class="row" style="margin-top:12px"><h3 style="margin:0">History</h3><button id="reset" class="danger">Reset all data</button></div><div class="list" id="history" style="margin-top:9px"></div></section>
+</div>
+<div class="footer"><span class="muted">A playful, simplified cosmology-inspired game, not a scientific simulation.</span><span class="muted" id="message">Your universe is evolving.</span></div>
 </main>
 <script>
-(() => {
+(function(){
 "use strict";
-const eras = [
- {name:"Planck Epoch",description:"Gravity and quantum physics are both essential. Our current theories cannot yet fully describe this regime.",age:"Before 10⁻⁴³ seconds"},
- {name:"Grand Unification Epoch",description:"At fantastically high energies, some fundamental forces may have been unified.",age:"Around 10⁻⁴³ to 10⁻³⁶ seconds"},
- {name:"Cosmic Inflation",description:"A tiny region of space expands enormously in an extremely short time.",age:"Often placed around 10⁻³⁶ to 10⁻³² seconds"},
- {name:"Reheating",description:"The energy driving inflation is converted into a hot soup of particles.",age:"After inflation"},
- {name:"Electroweak Epoch",description:"The electromagnetic and weak nuclear forces become distinct as the universe cools.",age:"Around 10⁻³⁶ to 10⁻¹² seconds"},
- {name:"Quark Epoch",description:"Quarks and other particles fill the hot, dense universe.",age:"Around 10⁻¹² to 10⁻⁶ seconds"},
- {name:"Hadron Epoch",description:"Quarks become bound into hadrons, including protons and neutrons.",age:"Around 10⁻⁶ to 1 second"},
- {name:"Lepton Epoch",description:"Leptons are important players; electrons, positrons and neutrinos fill the universe.",age:"Around 1 to 10 seconds"},
- {name:"Photon Epoch",description:"Radiation dominates the universe's energy while matter is still a minor component.",age:"After the lepton epoch to about  tens of thousands of years"},
- {name:"Big Bang Nucleosynthesis",description:"The first light atomic nuclei, including hydrogen, helium and traces of lithium, form.",age:"About 3 to 20 minutes"},
- {name:"Radiation-Dominated Era",description:"Radiation controls the expansion for much of the early universe.",age:"Until roughly  tens of thousands of years"},
- {name:"Matter-Radiation Equality",description:"Matter becomes the dominant component over radiation, allowing structures to grow more effectively.",age:"About 47,000 years"},
- {name:"Recombination",description:"Electrons combine with nuclei to form neutral atoms. The cosmic microwave background is released.",age:"About 380,000 years"},
- {name:"Cosmic Dark Ages",description:"The universe has no stars yet. Gas slowly gathers in regions with more matter.",age:"From 380,000 years to the first stars"},
- {name:"Reionization",description:"Light from the first stars and galaxies ionizes much of the surrounding hydrogen gas.",age:"Roughly  hundreds of millions of years"},
- {name:"First Stars",description:"The first stars ignite, ending the cosmic dark ages and forging heavier elements.",age:"Roughly 100–200 million years"},
- {name:"Galaxy Assembly",description:"Small galaxies form and merge into larger systems. Galaxies build up over cosmic time.",age:"Hundreds of millions of years onward"},
- {name:"Stelliferous Era",description:"The universe shines with stars. Star formation continues, though it gradually becomes less active.",age:"Present era; billions to trillions of years"},
- {name:"Degenerate Era",description:"After most stars fade, stellar remnants such as white dwarfs and neutron stars dominate.",age:"A distant future, after about 10¹⁴ years"},
- {name:"Black Hole Era",description:"Black holes become major remaining structures as other matter sources fade.",age:"A still more distant future"},
- {name:"Dark Era",description:"If current physics holds, the universe becomes extremely dilute, cold and dark.",age:"The far future"}
+const eras=[
+["Planck Epoch","Quantum gravity may have dominated. Our current physics cannot fully describe this earliest regime.","Before 10⁻⁴³ seconds","10³² K"],
+["Grand Unification Epoch","Some fundamental forces may have behaved as one unified force.","Around 10⁻⁴³ to 10⁻³⁶ seconds","10²⁹ K"],
+["Cosmic Inflation","Space expands enormously in an incredibly tiny fraction of a second.","Often placed around 10⁻³⁶ to 10⁻³² seconds","10²⁷ K"],
+["Reheating","Energy from inflation becomes a hot soup of particles.","After inflation","10²⁶ K"],
+["Electroweak Epoch","The electromagnetic and weak forces become distinct.","Around 10⁻³⁶ to 10⁻¹² seconds","10¹⁵ K"],
+["Quark Epoch","Quarks and other particles fill the hot universe.","Around 10⁻¹² to 10⁻⁶ seconds","10¹² K"],
+["Hadron Epoch","Quarks bind into protons, neutrons and other hadrons.","Around 10⁻⁶ to 1 second","10¹⁰ K"],
+["Lepton Epoch","Electrons, positrons and neutrinos shape the universe.","Around 1 to 10 seconds","10⁹ K"],
+["Photon Epoch","Radiation dominates the energy budget.","After the lepton epoch","10⁸ K"],
+["Big Bang Nucleosynthesis","The first light nuclei, mostly hydrogen and helium, form.","About 3 to 20 minutes","10⁸ K"],
+["Radiation-Dominated Era","Radiation controls cosmic expansion.","Until roughly 47,000 years","10⁴ K"],
+["Matter-Radiation Equality","Matter becomes the dominant component over radiation.","About 47,000 years","9,000 K"],
+["Recombination","Electrons join nuclei; the cosmic microwave background is released.","About 380,000 years","3,000 K"],
+["Cosmic Dark Ages","Neutral gas gathers in regions where matter is denser.","380,000 years to first stars","A few hundred K"],
+["Reionization","Light from early stars and galaxies ionizes much of the hydrogen gas.","Hundreds of millions of years","Tens of K"],
+["First Stars","The first stars ignite and begin forging heavier elements.","Roughly 100–200 million years","Tens of K"],
+["Galaxy Assembly","Galaxies grow through gravity, mergers and star formation.","Hundreds of millions of years onward","A few K"],
+["Stelliferous Era","Stars shine across the universe; star formation gradually slows.","Present era and far future","2.7 K today"],
+["Degenerate Era","Stellar remnants dominate after most stars have faded.","After roughly 10¹⁴ years","Near 0 K"],
+["Black Hole Era","Black holes become the major remaining structures.","A distant speculative future","Near 0 K"],
+["Dark Era","The universe becomes extremely dilute, cold and dark if current physics holds.","The far future","Near 0 K"]
 ];
-const upgrades = [
- {name:"Quantum Fluctuations",description:"Small fluctuations provide a boost to Cosmic Point production.",base:10,kind:"income",amount:1},
- {name:"Time Accelerator",description:"Increase how quickly the current era progresses.",base:20,kind:"speed",amount:1},
- {name:"Cosmic Energy Harvester",description:"Collect more energy from your growing universe.",base:45,kind:"income",amount:5},
- {name:"Expansion Engine",description:"A stronger boost to era progression.",base:100,kind:"speed",amount:3},
- {name:"Stellar Foundries",description:"Unlocks a powerful source of Cosmic Points in the stellar era.",base:250,kind:"income",amount:20,unlock:15},
- {name:"Gravity Networks",description:"Accelerate the growth of cosmic structures.",base:500,kind:"speed",amount:8,unlock:16},
- {name:"Black Hole Accretion",description:"Harness matter falling into black holes for more points.",base:1500,kind:"income",amount:100,unlock:19}
+const resources=["Energy","Particles","Matter","Hydrogen","Helium","Metals","Stars","Galaxies"];
+const processes=[
+{name:"Quantum fluctuations",desc:"Seed tiny variations in the early universe.",era:0,cost:{"Energy":10},out:"Particles",rate:0.7},
+{name:"Particle interactions",desc:"Turn primordial energy into particles.",era:4,cost:{"Energy":30},out:"Particles",rate:1.5},
+{name:"Quark confinement",desc:"Bind quarks into hadrons as the universe cools.",era:6,cost:{"Particles":25},out:"Matter",rate:1},
+{name:"Primordial nucleosynthesis",desc:"Build light nuclei from protons and neutrons.",era:9,cost:{"Matter":20},out:"Hydrogen",rate:1.2},
+{name:"Helium production",desc:"Create helium in the early nuclear reactions.",era:9,cost:{"Matter":35},out:"Helium",rate:0.6},
+{name:"Gravitational collapse",desc:"Gather gas into increasingly dense regions.",era:13,cost:{"Hydrogen":30},out:"Matter",rate:2},
+{name:"Stellar fusion",desc:"Stars fuse light elements and release energy.",era:15,cost:{"Hydrogen":45,"Helium":15},out:"Stars",rate:0.45},
+{name:"Element formation",desc:"Stellar processes and explosions make heavier elements.",era:15,cost:{"Stars":12},out:"Metals",rate:0.25},
+{name:"Galaxy formation",desc:"Build galaxies from stars, gas and dark matter.",era:16,cost:{"Stars":30,"Matter":40},out:"Galaxies",rate:0.12},
+{name:"Cosmic expansion",desc:"Expand the space between large-scale structures.",era:2,cost:{"Energy":100},out:"Energy",rate:5}
 ];
-const $ = id => document.getElementById(id);
-const fresh = () => ({timelineVersion:2,points:25,income:1,speed:1,era:0,progress:0,levels:Array(upgrades.length).fill(0),history:["The first moments of a new universe." ]});
-let state = fresh();
-let last = Date.now();
-let lastSave = Date.now();
-function cost(i){return Math.ceil(upgrades[i].base*Math.pow(1.65,state.levels[i])*(1+state.era*.65));}
-function number(n){return Math.floor(n).toLocaleString("en-US");}
-function addHistory(text){state.history.unshift(text);state.history=state.history.slice(0,8);}
-function save(){try{localStorage.setItem("cosmosIdleSaveV1",JSON.stringify(state));$("saveStatus").textContent="Game saved";}catch(e){$("saveStatus").textContent="Autosave unavailable";}}
-function load(){try{const raw=localStorage.getItem("cosmosIdleSaveV1");if(!raw)return;const s=JSON.parse(raw);if(!s||!Array.isArray(s.levels)||s.levels.length!==upgrades.length)return;state={...fresh(),...s};if(!s.timelineVersion||s.timelineVersion<2){const oldEraMap=[0,2,5,9,12,15,16,20];state.era=oldEraMap[Math.max(0,Math.min(oldEraMap.length-1,Number(s.era)||0))];state.timelineVersion=2;}state.era=Math.max(0,Math.min(eras.length-1,Number(state.era)||0));state.points=Math.max(0,Number(state.points)||0);state.income=Math.max(1,Number(state.income)||1);state.speed=Math.max(1,Number(state.speed)||1);state.progress=Math.max(0,Math.min(100,Number(state.progress)||0));state.levels=upgrades.map((_,i)=>Math.max(0,Number(s.levels[i])||0));state.history=Array.isArray(s.history)?s.history.slice(0,8):fresh().history;}catch(e){}}
+const research=[
+{name:"Efficient physics",desc:"All process production +20%.",cost:80,effect:"production"},
+{name:"Cosmic clock",desc:"Era progress +25%.",cost:120,effect:"progress"},
+{name:"Gravitational insight",desc:"Matter and galaxy processes +30%.",cost:220,effect:"gravity"},
+{name:"Stellar knowledge",desc:"Star and metal production +35%.",cost:400,effect:"stellar"}
+];
+const achievements=[
+["First particles","Unlock the Hadron Epoch",s=>s.era>=6],["Nuclear dawn","Reach Big Bang Nucleosynthesis",s=>s.era>=9],["Let there be light","Reach the First Stars",s=>s.era>=15],["Island universes","Reach Galaxy Assembly",s=>s.era>=16],["Ancient cosmos","Accumulate 1,000 Energy",s=>s.resources.Energy>=1000],["Element factory","Produce 100 Metals",s=>s.resources.Metals>=100],["A universe of your own","Create a second universe",s=>s.universes>=2],["The long goodbye","Reach the Dark Era",s=>s.era>=20]
+];
+const $=id=>document.getElementById(id),fmt=n=>{if(n>=1e12)return n.toExponential(2);if(n>=1e6)return (n/1e6).toFixed(2)+"M";if(n>=1e3)return (n/1e3).toFixed(2)+"K";return n.toFixed(n<10?1:0)};
+const fresh=()=>({version:3,era:0,progress:0,resources:{Energy:35,Particles:0,Matter:0,Hydrogen:0,Helium:0,Metals:0,Stars:0,Galaxies:0},levels:Array(processes.length).fill(0),research:[],age:0,scale:1,legacy:0,universes:1,achievements:[],history:["A new universe emerges from an extremely hot, dense state."],eventUntil:0,eventName:"",eventBonus:1});
+let s=fresh(),last=Date.now(),lastEvent=Date.now()+35000;
+function add(msg){s.history.unshift(msg);s.history=s.history.slice(0,12)}
+function save(){try{localStorage.setItem("cosmosIdleSaveV2",JSON.stringify(s));$("saveStatus").textContent="SAVED";}catch(e){$("saveStatus").textContent="SAVE UNAVAILABLE"}}
+function load(){try{let raw=localStorage.getItem("cosmosIdleSaveV2")||localStorage.getItem("cosmosIdleSaveV1");if(!raw)return;let old=JSON.parse(raw);if(old.version===3){s={...fresh(),...old,resources:{...fresh().resources,...old.resources}};}else{let map=[0,2,5,9,12,15,16,20];s.era=map[Math.max(0,Math.min(7,old.era||0))];s.progress=old.progress||0;s.resources.Energy=Math.max(35,old.points||0);s.legacy=0;s.universes=1;add("Your previous COSMOS IDLE save was converted into the new universe simulation.");}}catch(e){}}
+function unlocked(p){return s.era>=p.era}
+function cost(p,i){let c={};Object.keys(p.cost).forEach(k=>c[k]=p.cost[k]*Math.pow(1.7,s.levels[i]));return c}
+function canPay(c){return Object.keys(c).every(k=>s.resources[k]>=c[k])}
+function pay(c){Object.keys(c).forEach(k=>s.resources[k]-=c[k])}
+function rate(p,i){let mult=1+s.legacy*.1;if(s.research.includes("production"))mult*=1.2;if(s.research.includes("gravity")&&(p.out==="Matter"||p.out==="Galaxies"))mult*=1.3;if(s.research.includes("stellar")&&(p.out==="Stars"||p.out==="Metals"))mult*=1.35;return p.rate*s.levels[i]*mult}
 function render(){
- $("points").textContent=number(state.points);$("income").textContent=state.income.toFixed(1);$("speed").textContent=state.speed.toFixed(1)+"×";
- const era=eras[state.era];$("eraName").textContent=era.name;$("eraDescription").textContent=era.description;$("eraAge").textContent=era.age;
- $("eraCount").textContent=`ERA ${state.era+1} / ${eras.length}`;$("progressText").textContent=`${state.progress.toFixed(1)} / 100`;
- $("progressBar").style.width=state.progress+"%";$("remaining").textContent=number(Math.ceil(100-state.progress))+" remaining";
- $("advance").disabled=state.progress<100||state.era===eras.length-1;
- $("advance").textContent=state.era===eras.length-1?"Universe timeline complete":state.progress>=100?"Unlock next era →":"Next era (reach 100 progress)";
- $("upgrades").innerHTML=upgrades.map((u,i)=>{
-  const locked=state.era<(u.unlock||0),c=cost(i),owned=state.levels[i];
-  return `<div class="upgrade"><div class="row"><b>${u.name}</b><span class="muted">Level ${owned}</span></div><p>${locked?"Unlocks in "+eras[u.unlock].name:u.description}</p><div class="row"><span class="cost">${locked?"🔒":number(c)+" CP"}</span><button data-buy="${i}" ${locked||state.points<c?"disabled":""}>Buy upgrade</button></div></div>`;
- }).join("");
- $("history").innerHTML=state.history.map(x=>`<div>${escapeHtml(x)}</div>`).join("");
+$("eraName").textContent=eras[s.era][0];$("eraDesc").textContent=eras[s.era][1];$("eraCount").textContent=(s.era+1)+" / "+eras.length;$("eraAge").textContent=eras[s.era][2];$("progressText").textContent=s.progress.toFixed(1)+" / 100";$("progressBar").style.width=s.progress+"%";$("remaining").textContent=Math.ceil(100-s.progress)+" progress left";$("advance").disabled=s.progress<100||s.era===20;$("advance").textContent=s.era===20?"Timeline complete":s.progress>=100?"Unlock "+eras[s.era+1][0]+" →":"Continue cosmic evolution";
+$("resources").innerHTML=resources.map(k=>'<div class="resource"><small>'+k+'</small><b>'+fmt(s.resources[k])+'</b></div>').join("");
+$("legacy").textContent=s.legacy;$("legacyDetail").textContent=s.legacy;$("universeCount").textContent="Universe #"+s.universes;$("prestige").disabled=s.era<20;$("prestigeInfo").textContent=s.era<20?"Reach the Dark Era to create a new universe.": "Start a new universe. Your legacy gives +"+(s.legacy*10)+"% process production.";
+$("processes").innerHTML=processes.map((p,i)=>{let c=cost(p,i),locked=!unlocked(p);let price=Object.keys(c).map(k=>fmt(c[k])+" "+k).join(" + ");return '<div class="item '+(!locked?'unlocked':'')+'"><div class="row"><b>'+p.name+'</b><span class="pill">Lv '+s.levels[i]+'</span></div><p>'+ (locked?"Unlocks in "+eras[p.era][0]:p.desc+" Produces "+p.rate+" "+p.out+"/s per level.")+'</p><button data-process="'+i+'" '+(locked||!canPay(c)?'disabled':'')+'>'+(locked?"Locked": "Build · "+price)+'</button></div>'}).join("");
+$("research").innerHTML=research.map(r=>'<div class="entry"><b>'+r.name+'</b><small>'+r.desc+'</small><div class="row" style="margin-top:7px"><small>'+ (s.research.includes(r.effect)?"Researched":"Cost: "+r.cost+" Energy")+'</small><button data-research="'+r.effect+'" '+(s.research.includes(r.effect)||s.resources.Energy<r.cost?'disabled':'')+'>'+(s.research.includes(r.effect)?"Complete":"Research")+'</button></div></div>').join("");
+$("achievements").innerHTML=achievements.map(a=>{let done=s.achievements.includes(a[0]);return '<div class="entry '+(done?'done':'')+'"><b>'+(done?'✓ ':'◇ ')+a[0]+'</b><small>'+a[1]+'</small></div>'}).join("");$("achievementCount").textContent=s.achievements.length+" / "+achievements.length+" unlocked";
+$("encyclopedia").innerHTML=eras.map((e,i)=>'<div class="entry '+(i<=s.era?'done':'')+'"><div class="row"><b>'+(i<=s.era?'✓ ':'🔒 ')+(i+1)+". "+e[0]+'</b><span class="muted">'+(i<=s.era?'Discovered':'Undiscovered')+'</span></div><small>'+e[1]+' · '+e[2]+'</small></div>').join("");
+$("history").innerHTML=s.history.map(x=>'<div class="entry">'+esc(x)+'</div>').join("");
+$("temp").textContent=eras[s.era][3];$("scale").textContent=(s.scale>=1e6?s.scale.toExponential(1):s.scale.toFixed(2))+"×";$("expansion").textContent=s.era<3?"Inflationary":s.era<12?"Slowing":s.era<17?"Structure growth":"Accelerating";let matter=Object.values(s.resources).reduce((a,b)=>a+b,0);$("matterMix").textContent=(matter?Math.min(100,(s.resources.Matter+s.resources.Hydrogen+s.resources.Helium+s.resources.Stars+s.resources.Galaxies)/matter*100):0).toFixed(1)+"%";
+$("age").textContent=s.age<60?fmt(s.age)+" sec":s.age<3600?(s.age/60).toFixed(1)+" min":(s.age/3600).toFixed(1)+" sim-hours";
+$("event").textContent=s.eventName?s.eventName+" is active! Process production is boosted.":"The universe is calm. Unexpected events may occur as it evolves."; $("eventTimer").textContent=s.eventUntil>Date.now()?"Event ends in "+Math.ceil((s.eventUntil-Date.now())/1000)+"s":"Next event in "+Math.max(0,Math.ceil((lastEvent-Date.now())/1000))+"s";
 }
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-$("upgrades").addEventListener("click",e=>{
- const b=e.target.closest("[data-buy]");if(!b)return;const i=Number(b.dataset.buy),u=upgrades[i],c=cost(i);
- if(!Number.isInteger(i)||!u||state.points<c||state.era<(u.unlock||0))return;
- state.points-=c;state.levels[i]++;
- if(u.kind==="income")state.income+=u.amount;else state.speed+=u.amount;
- addHistory(`Purchased ${u.name} (level ${state.levels[i]}).`);render();save();
-});
-$("advance").addEventListener("click",()=>{
- if(state.progress<100||state.era>=eras.length-1)return;
- state.era++;state.progress=0;const bonus=state.era*30;state.points+=bonus;
- addHistory(`Era unlocked: ${eras[state.era].name}. +${bonus} bonus CP.`);$("message").textContent=`Welcome to ${eras[state.era].name}!`;render();save();
-});
-$("reset").addEventListener("click",()=>{
- if(!confirm("Reset all progress, upgrades and saved data?"))return;
- state=fresh();last=Date.now();render();save();$("message").textContent="A new universe has begun.";
-});
-load();render();
-setInterval(()=>{
- const now=Date.now(),dt=Math.min((now-last)/1000,1);last=now;
- state.points+=state.income*dt;state.progress=Math.min(100,state.progress+state.speed*dt);
- render();
- if(now-lastSave>5000){save();lastSave=now;}
-},200);
-window.addEventListener("beforeunload",save);
-})();
-</script>
-</body>
-</html>
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+$("processes").addEventListener("click",e=>{let b=e.target.closest("[data-process]");if(!b)return;let i=+b.dataset.process,p=processes[i],c=cost(p,i);if(!unlocked(p)||!canPay(c))return;pay(c);s.levels[i]++;add("Built "+p.name+" (level "+s.levels[i]+").");render();save()});
+$("research").addEventListener("click",e=>{let b=e.target.closest("[data-research]");if(!b)return;let r=research.find(x=>x.effect===b.dataset.research);if(!r||s.research.includes(r.effect)||s.resources.Energy<r.cost)return;s.resources.Energy-=r.cost;s.research.push(r.effect);add("Research completed: "+r.name+".");render();save()});
+$("advance").addEventListener("click",()=>{if(s.progress<100||s.era>=20)return;s.era++;s.progress=0;s.resources.Energy+=25+s.era*10;s.scale*=s.era<3?1000:1.7;add("Cosmic era reached: "+eras[s.era][0]+".");$("message").textContent="The universe has evolved into "+eras[s.era][0]+".";checkAchievements();render();save()});
+$("prestige").addEventListener("click",()=>{if(s.era<20)return;let gain=Math.max(1,Math.floor(Math.sqrt(s.universes+s.era+s.resources.Galaxies/10)));if(!confirm("Create a new universe and gain "+gain+" Cosmic Legacy? Your current universe's progress will reset."))return;let oldLegacy=s.legacy;s=fresh();s.legacy=oldLegacy+gain;s.universes=(JSON.parse(localStorage.getItem("cosmosIdleSaveV2")||"{}").universes||1)+1;s.achievements=["A universe of your own"];add("Universe #"+s.universes+" was born. Cosmic Legacy increased by "+gain+".");last=Date.now();render();save()});
+$("reset").addEventListener("click",()=>{if(!confirm("Erase all universes, legacy and progress? This cannot be undone."))return;s=fresh();last=Date.now();render();save();$("message").textContent="A new cosmos begins."});
+function checkAchievements(){achievements.forEach(a=>{if(!s.achievements.includes(a[0])&&a[2](s)){s.achievements.push(a[0]);add("Achievement unlocked: "+a[0]+"!");}})}
+function eventTick(now){if(now<s.eventUntil)return;if(now>=lastEvent){let events=[["Supernova burst",1.8],["Primordial energy surge",2],["Galaxy alignment",1.6],["Cosmic ray shower",1.5]];let ev=events[Math.floor(Math.random()*events.length)];s.eventName=ev[0];s.eventBonus=ev[1];s.eventUntil=now+18000;lastEvent=now+45000+Math.random()*30000;add("Cosmic event: "+ev[0]+"! Production boosted for 18 seconds.");}else if(s.eventName&&now>=s.eventUntil){s.eventName="";s.eventBonus=1;}}
+$("universe").addEventListener("click",()=>{});let canvas=$("universe"),ctx=canvas.getContext("2d"),stars=Array.from({length:170},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.7+.3,p:Math.random()*6.28}));
+function draw(){let w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);let stage=s.era;let cx=w/2,cy=h/2;let gradient=ctx.createRadialGradient(cx,cy,3,cx,cy,Math.min(w,h)*.55);let colors=stage<5?["#fff1c2","#ff8c68","#291b52"]:stage<13?["#d4e8ff","#5985bd","#101b3b"]:stage<18?["#fff5c4","#9d80ed","#10182f"]:["#d4dcff","#4c527d","#080d1a"];gradient.addColorStop(0,colors[0]);gradient.addColorStop(.16,colors[1]);gradient.addColorStop(1,colors[2]);ctx.fillStyle=gradient;ctx.fillRect(0,0,w,h);
+stars.forEach((p,i)=>{let alpha=.35+.45*Math.sin(Date.now()/700+p.p);ctx.globalAlpha=stage<15?alpha*.3:alpha;ctx.fillStyle="#e6f2ff";ctx.beginPath();ctx.arc(p.x*w,p.y*h,p.r,0,Math.PI*2);ctx.fill()});ctx.globalAlpha=1;
+if(stage<5){let r=35+stage*15+Math.sin(Date.now()/350)*5;ctx.strokeStyle="#ffbd91";ctx.lineWidth=4;ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();ctx.fillStyle="#fff0bd";ctx.beginPath();ctx.arc(cx,cy,r*.52,0,Math.PI*2);ctx.fill();}
+else if(stage<13){for(let i=0;i<7;i++){let a=i* Math.PI*2/7+Date.now()/12000;let r=35+(i%3)*32;ctx.fillStyle=i%2?"#80d9f2":"#f3d6a2";ctx.beginPath();ctx.arc(cx+Math.cos(a)*r,cy+Math.sin(a)*r,4+i%3*2,0,Math.PI*2);ctx.fill();}}
+else if(stage<18){for(let i=0;i<Math.min(65,12+(stage-13)*12);i++){let a=i*2.399;let r=12+Math.sqrt(i)*13;ctx.fillStyle=i%5?"#a9c9ff":"#ffe6a8";ctx.beginPath();ctx.arc(cx+Math.cos(a)*r,cy+Math.sin(a)*r*.65,1.5+(i%3),0,Math.PI*2);ctx.fill();}}
+else{for(let i=0;i<12;i++){let a=i* Math.PI*2/12;ctx.fillStyle="#a6b6e8";ctx.beginPath();ctx.arc(cx+Math.cos(a)*((i%3)*25+25),cy+Math.sin(a)*((i%3)*18+18),3,0,Math.PI*2);ctx.fill();}ctx.fillStyle="#05070d";ctx.beginPath();ctx.arc(cx,cy,25,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#a78bfa";ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(cx,cy,48,13,.3,0,Math.PI*2);ctx.stroke();}
+$("visualLabel").textContent=stage<5?"EARLY UNIVERSE · HOT PLASMA":stage<13?"PARTICLES & ATOMS":stage<15?"COSMIC DARK AGES":stage<18?"STARS & GALAXIES":stage<20?"THE FAR FUTURE · REMNANTS":"DARK ERA · DYING COSMOS";
+requestAnimationFrame(draw)}
+function tick(){let now=Date.now(),dt=Math.min((now-last)/1000,1);last=now;s.age+=dt;s.progress=Math.min(100,s.progress+dt*(1+s.legacy*.025)*(s.research.includes("progress")?1.25:1));s.scale*=1+dt*.0007;
+processes.forEach((p,i)=>{let r=rate(p,i)*dt*(now<s.eventUntil?s.eventBonus:1);if(r)s.resources[p.out]+=r;});eventTick(now);checkAchievements();render();if(now%5000<220)save();}
+load();render();draw();setInterval(tick,200);window.addEventListener("beforeunload",save);
+})();</script></body></html>
