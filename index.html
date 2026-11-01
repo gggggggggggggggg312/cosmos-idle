@@ -32,10 +32,27 @@ hr{opacity:.65}.footer{border-top:1px solid #1d2e4d;padding-top:14px;font-size:.
 @keyframes buttonGlow{from{filter:brightness(1)}to{filter:brightness(1.12)}}
 
 .goal-box{margin-top:12px;padding:10px 12px;border:1px solid #38547a;border-radius:10px;background:linear-gradient(100deg,#0b1b30,#11152b);font-size:.83rem}.goal-box b{color:#80f4ff}.goal-box.ready{border-color:#34795f;background:linear-gradient(100deg,#0b2925,#101b2a)}.goal-box.ready b{color:#8ef6c9}
-.tech-branch{margin:8px 0 5px;color:#80f4ff;font-size:.72rem;font-weight:850;letter-spacing:.13em;text-transform:uppercase}.tech-node{border:1px solid #30466b;border-radius:10px;padding:10px;background:linear-gradient(120deg,#0d1a30,#0a1020)}.tech-node.unlocked{border-color:#397b62}.tech-node.locked{opacity:.68}.tech-node button{margin-top:7px;width:100%}.visual-hint{position:absolute;right:12px;bottom:10px;z-index:2;padding:5px 8px;border-radius:6px;background:#050916bb;border:1px solid #35517d;color:#a9c5e9;font-size:.68rem}.event-reward{color:#9df6ce;font-weight:750}</style></head>
-<body><main>
+.tech-branch{margin:8px 0 5px;color:#80f4ff;font-size:.72rem;font-weight:850;letter-spacing:.13em;text-transform:uppercase}.tech-node{border:1px solid #30466b;border-radius:10px;padding:10px;background:linear-gradient(120deg,#0d1a30,#0a1020)}.tech-node.unlocked{border-color:#397b62}.tech-node.locked{opacity:.68}.tech-node button{margin-top:7px;width:100%}.visual-hint{position:absolute;right:12px;bottom:10px;z-index:2;padding:5px 8px;border-radius:6px;background:#050916bb;border:1px solid #35517d;color:#a9c5e9;font-size:.68rem}.event-reward{color:#9df6ce;font-weight:750}
+/* Game-style navigation and upgrade shop layout */
+.game-nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px;margin:0 0 16px;border:1px solid #304875;border-radius:13px;background:#080e20ee;position:sticky;top:8px;z-index:10;backdrop-filter:blur(12px)}
+.game-nav a{color:#b9cbed;text-decoration:none;padding:9px 12px;border:1px solid #273d63;border-radius:8px;font-size:.78rem;font-weight:800}
+.game-nav a:hover{color:#65f4ff;border-color:#65f4ff;background:#10243b}
+.game-nav .nav-brand{color:#65f4ff;letter-spacing:.14em}
+.nav-live{margin-left:auto;color:#70ffc2;font-size:.65rem;font-weight:900;letter-spacing:.12em}
+.panel{scroll-margin-top:80px}
+#processPanel .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+#processPanel .item{min-height:150px;display:flex;flex-direction:column}
+#processPanel .item button{margin-top:auto}
+#processPanel .item b{font-size:1rem}
+#advance{min-height:48px;text-transform:uppercase;letter-spacing:.07em}
+@media(max-width:700px){.game-nav{position:relative;top:auto}#processPanel .cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:430px){#processPanel .cards{grid-template-columns:1fr}.nav-live{margin-left:0;width:100%}}
+
+</style></head>
+<body><main id="top">
 <div class="head"><div><h1>✦ COSMOS IDLE</h1><p class="sub">Start with a hot, dense universe. Build everything that comes after.</p></div><span class="tag" id="saveStatus">AUTOSAVE ON</span></div>
 <section class="mission-strip" aria-label="Mission status"><span class="mission-dot"></span><b>UNIVERSE SIMULATION</b><span class="mission-divider">/</span><span>MISSION: BUILD A COSMOS</span><span class="mission-right">REAL-TIME EVOLUTION <span class="live-dot"></span></span></section>
+<nav class="game-nav"><a class="nav-brand" href="#top">COSMOS COMMAND</a><a href="#universe">Universe</a><a href="#processPanel">Build</a><a href="#researchPanel">Research</a><a href="#adventurePanel">Missions</a><a href="#legacyPanel">Multiverse</a><span class="nav-live">● SIMULATION LIVE</span></nav>
 <div class="layout">
 <section class="panel">
 <div class="visual"><canvas id="universe" width="900" height="420"></canvas><div class="visualLabel" id="visualLabel">EARLY UNIVERSE · PLASMA</div><div class="visual-hint">CLICK UNIVERSE TO CHANGE VIEW</div></div>
@@ -57,12 +74,12 @@ hr{opacity:.65}.footer{border-top:1px solid #1d2e4d;padding-top:14px;font-size:.
 <hr style="border:0;border-top:1px solid var(--line);margin:17px 0">
 <div class="label">Cosmic resources</div><div class="resources" id="resources"></div>
 </section>
-<section class="panel wide"><div class="row"><h2 style="margin:0">⚛ Cosmic processes</h2><span class="muted">Build the ingredients of a universe</span></div><p class="muted">Processes generate resources automatically. New processes unlock as the universe evolves.</p><div class="cards" id="processes"></div></section>
+<section class="panel wide" id="processPanel"><div class="row"><h2 style="margin:0">⚛ Cosmic processes</h2><span class="muted">Build the ingredients of a universe</span></div><p class="muted">Processes generate resources automatically. New processes unlock as the universe evolves.</p><div class="cards" id="processes"></div></section>
 <section class="panel"><div class="row"><h2 style="margin:0">🌐 Technology tree</h2><span class="muted">Three research branches</span></div><div class="list" id="techTree"></div></section>
-<section class="panel"><div class="row"><h2 style="margin:0">🔬 Research</h2><span class="muted">Permanent improvements</span></div><div class="list" id="research"></div></section>
+<section class="panel" id="researchPanel"><div class="row"><h2 style="margin:0">🔬 Research</h2><span class="muted">Permanent improvements</span></div><div class="list" id="research"></div></section>
 <section class="panel"><div class="row"><h2 style="margin:0">🏆 Milestones</h2><span class="pill" id="achievementCount">0 unlocked</span></div><div class="list" id="achievements"></div></section>
 <section class="panel wide" id="adventurePanel"><div class="row"><h2 style="margin:0">🧭 Cosmic Adventure Board</h2><span class="pill" id="missionCount">0/3 claimed</span></div><p class="muted">Complete missions, collect relics, and challenge yourself across universes.</p><div class="cards" id="missions"></div><hr style="border:0;border-top:1px solid var(--line);margin:16px 0"><h3>🏺 Cosmic Relics</h3><div class="list" id="relics"></div><hr style="border:0;border-top:1px solid var(--line);margin:16px 0"><h3>⚖️ Cosmic Laws</h3><p class="muted">Choose a law for your next universe after prestige.</p><div class="cards" id="cosmicLaws"></div><hr style="border:0;border-top:1px solid var(--line);margin:16px 0"><h3>🌀 Challenges</h3><div class="cards" id="challenges"></div><hr style="border:0;border-top:1px solid var(--line);margin:16px 0"><h3>📈 Universe Records</h3><div class="stats" id="records"></div></section><section class="panel wide"><div class="row"><h2 style="margin:0">📚 Cosmic encyclopedia</h2><span class="muted">Explore the timeline</span></div><div class="list" id="encyclopedia" style="margin-top:10px"></div></section>
-<section class="panel wide"><div class="row"><h2 style="margin:0">🌌 Multiverse & Cosmic Legacy</h2><span class="pill" id="universeCount">Universe #1</span></div><p class="muted">Reach the far future, then begin a new universe with permanent legacy bonuses.</p><div class="row" style="flex-wrap:wrap"><div><div class="label">Legacy fragments</div><div class="value" id="legacyDetail">0</div></div><button class="primary" id="prestige" disabled>Create a new universe (requires Dark Era)</button></div><p class="muted" id="prestigeInfo">Your current universe will be reset in exchange for a permanent production bonus.</p></section>
+<section class="panel wide" id="legacyPanel"><div class="row"><h2 style="margin:0">🌌 Multiverse & Cosmic Legacy</h2><span class="pill" id="universeCount">Universe #1</span></div><p class="muted">Reach the far future, then begin a new universe with permanent legacy bonuses.</p><div class="row" style="flex-wrap:wrap"><div><div class="label">Legacy fragments</div><div class="value" id="legacyDetail">0</div></div><button class="primary" id="prestige" disabled>Create a new universe (requires Dark Era)</button></div><p class="muted" id="prestigeInfo">Your current universe will be reset in exchange for a permanent production bonus.</p></section>
 <section class="panel wide"><div class="row"><h2 style="margin:0">✨ Cosmic events</h2><span class="muted" id="eventTimer">Next event soon</span></div><div id="event" class="notice" style="margin-top:10px">The universe is calm. Unexpected events may occur as it evolves.</div><div class="row" style="margin-top:12px"><h3 style="margin:0">History</h3><button id="reset" class="danger">Reset all data</button></div><div class="list" id="history" style="margin-top:9px"></div></section>
 </div>
 <div class="footer"><span class="muted">A playful, simplified cosmology-inspired game, not a scientific simulation.</span><span class="muted" id="message">Your universe is evolving.</span></div>
